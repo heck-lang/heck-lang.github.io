@@ -12,6 +12,23 @@ body {
 	font-size: 30px;
 }
 
+.navbar {
+	font-size: 20px;
+	height: 50px;
+	background-color: #ccc;
+}
+
+.navbar a {
+	padding: 12px;
+	display: inline-block;
+	height: 50px;
+	transition: 0.2s;
+}
+
+.navbar a : hover {
+	background-color: #aaa;
+}
+
 .content {
 	padding: 20px;
 }
