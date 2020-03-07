@@ -11,7 +11,13 @@
 	<div class="navbar">
 		<a href="../">Home</a>
 	</div>
-	<div id="container" style="width:640px;height:480px;border:1px solid grey"></div>
+	<div id="container" style="width:640px;height:480px;border:1px solid grey">
+		<div style="height:100%;width:100%;display:table;background-color:#000;color:#ccc">
+			<div style="display:table-cell;vertical-align:middle;text-align:center">
+				Please wait...
+			</div>
+		</div>
+	</div>
 
 	<!-- OR ANY OTHER AMD LOADER HERE INSTEAD OF loader.js -->
 	<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
@@ -143,7 +149,9 @@
 				},
 			});
 
-			let editor = monaco.editor.create(document.getElementById('container'), {
+			let container = document.getElementById('container');
+			container.innerHTML = '';
+			let editor = monaco.editor.create(container, {
 				theme: 'vs-dark',
 				value: getCode(),
 				language: 'heck'
