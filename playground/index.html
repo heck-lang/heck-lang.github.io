@@ -19,16 +19,157 @@
 		require.config({ paths: { 'vs': '../node_modules/monaco-editor/min/vs' }});
 
 		require(['vs/editor/editor.main'], function() {
-			var editor = monaco.editor.create(document.getElementById('container'), {
-				value: [
-					'function x() {',
-					'\tconsole.log("Hello world!");',
-					'}'
-				].join('\n'),
-				language: 'javascript',
-				theme: 'vs-dark'
+
+			monaco.languages.register({
+				id: 'heck'
+			});
+			monaco.languages.setLanguageConfiguration('heck', {
+				comments: {
+					lineComment: '//',
+					blockComment: ['/*', '*/'],
+				},
+				brackets: [
+					['{', '}'],
+					['[', ']'],
+					['(', ')']
+				],
+				autoClosingPairs: [
+					{ open: '[', close: ']' },
+					{ open: '{', close: '}' },
+					{ open: '(', close: ')' },
+					{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
+					{ open: '"', close: '"', notIn: ['string'] },
+				],
+				surroundingPairs: [
+					{ open: '{', close: '}' },
+					{ open: '[', close: ']' },
+					{ open: '(', close: ')' },
+					{ open: '"', close: '"' },
+					{ open: '\'', close: '\'' },
+				],
+				folding: {
+					markers: {
+						start: new RegExp("^\\s*#pragma\\s+region\\b"),
+						end: new RegExp("^\\s*#pragma\\s+endregion\\b")
+					}
+				}
+			});
+			
+			monaco.languages.setMonarchTokensProvider('heck', {
+				// Set defaultToken to invalid to see what you do not tokenize yet
+				// defaultToken: 'invalid',
+				brackets: [
+					['{','}','delimiter.curly'],
+					['[',']','delimiter.square'],
+					['(',')','delimiter.parenthesis'],
+				],
+
+				keywords: [
+					'if', 'while', 'for', 'return', 'class', 'namespace', 'func', 'let', 'true', 'false', 'import', 'export', 'const', 'friend', 'public', 'private', 'operator'
+				],
+
+				typeKeywords: [
+					'int', 'string', 'bool', 'float', 'char'
+				],
+
+				operators: [
+					'=', '>', '<', '!', '~', '?', ':', '==', '<=', '>=', '!=',
+					'&&', '||', '++', '--', '+', '-', '*', '/', '&', '|', '^', '%',
+					'<<', '>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=', '^=',
+					'%=', '<<=', '>>=', '>>>='
+				],
+
+				// we include these common regular expressions
+				symbols:  /[=><!~?:&|+\-*\/\^%]+/,
+
+				// C# style strings
+				escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+				// The main tokenizer for our languages
+				tokenizer: {
+					root: [
+					// identifiers and keywords
+					[/[a-z_$][\w$]*/, { cases: { '@typeKeywords': 'keyword',
+												'@keywords': 'keyword',
+												'@default': 'identifier' } }],
+					[/[A-Z][\w\$]*/, 'type.identifier'],  // to show class names nicely
+
+					// whitespace
+					{ include: '@whitespace' },
+
+					// delimiters and operators
+					[/[{}()\[\]]/, '@brackets'],
+					[/[<>](?!@symbols)/, '@brackets'],
+					[/@symbols/, { cases: { '@operators': 'operator',
+											'@default'  : '' } } ],
+
+					// numbers
+					[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+					[/0[xX][0-9a-fA-F]+/, 'number.hex'],
+					[/\d+/, 'number'],
+
+					// delimiter: after number because of .\d floats
+					[/[;,.]/, 'delimiter'],
+
+					// strings
+					[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+					[/"/,  { token: 'string.quote', bracket: '@open', next: '@string' } ],
+
+					// characters
+					[/'[^\\']'/, 'string'],
+					[/(')(@escapes)(')/, ['string','string.escape','string']],
+					[/'/, 'string.invalid']
+					],
+
+					comment: [
+					[/[^\/*]+/, 'comment' ],
+					[/\/\*/,    'comment', '@push' ],    // nested comment
+					["\\*/",    'comment', '@pop'  ],
+					[/[\/*]/,   'comment' ]
+					],
+
+					string: [
+					[/[^\\"]+/,  'string'],
+					[/@escapes/, 'string.escape'],
+					[/\\./,      'string.escape.invalid'],
+					[/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+					],
+
+					whitespace: [
+					[/[ \t\r\n]+/, 'white'],
+					[/\/\*/,       'comment', '@comment' ],
+					[/\/\/.*$/,    'comment'],
+					],
+				},
+			});
+
+			let editor = monaco.editor.create(document.getElementById('container'), {
+				theme: 'vs-dark',
+				value: getCode(),
+				language: 'heck'
 			});
 		});
+
+		function getCode() {
+			return [
+				'/*',
+				' the playground will be under construction',
+				' until the first release of the Heck compiler',
+				'*/',
+				'',
+				'func factorial(int n) {',
+				'',
+				'\tif (n == 1) {',
+				'\t\treturn 1',
+				'\t}',
+				'',
+				'\treturn n * factorial(n - 1)',
+				'}',
+				'',
+				'// should print 120',
+				'print("5! is ", factorial(5))'
+			].join('\n');
+		}
 	</script>
 </body>
 </html>
