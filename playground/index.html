@@ -312,10 +312,12 @@
 			}
 		}
 
+		// handle dragbar
 		dragBar.onmousedown = function() {
 			window.onmousemove = function(e) {
-				let pos = e.clientX;
 				let playgroundWidth = playgroundContent.clientWidth;
+				// don't let either playgrounds be less than 100px wide
+				let pos = Math.max(Math.min(e.clientX, playgroundWidth - 100), 100);
 				let leftPercentage = (pos / playgroundWidth) * 100;
 				let rightPercentage = 100 - leftPercentage;
 				editorContainer.style.width = "calc(" + leftPercentage + "% - 6px)";
