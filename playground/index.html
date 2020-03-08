@@ -5,17 +5,125 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 	<link href="../assets/style.css" rel="stylesheet">
+	<style>
+		#wrapper {
+			height: calc(100% - 125px);
+			width: 100%;
+			overflow: hidden;
+		}
+		#playgroundContent {
+			height: calc(100% - 30px);
+			width: 100%;
+			box-sizing: border-box;
+			border-bottom: 1px solid grey;
+			border-top: 1px solid grey;
+		}
+		#editorContainer {
+			display: inline-block;
+			height: 100%;
+			width: calc(50% - 6px);
+		}
+		#dragBar {
+			display: inline-block;
+			height: 100%;
+			width: 12px;
+			background-color: #ccc;
+			box-sizing: border-box;
+			border-left: 1px solid grey;
+			border-right: 1px solid grey;
+			cursor: col-resize;
+		}
+		.dragbar-decor {
+			width: 100%;
+			height: 100%;
+			display: table;
+		}
+		.dragbar-decor div {
+			display: table-cell;
+			vertical-align: middle;
+			text-align: center;
+		}
+		.dragbar-decor div div {
+			width: 2px;
+			height: 10px;
+			border-left: 1px solid grey;
+			border-right: 1px solid grey;
+			display: inline-block;
+		}
+		#outputContainer {
+			display: inline-block;
+			height: 100%;
+			width: calc(50% - 6px);
+		}
+		#output {
+			display: table-cell;
+			width: 100%;
+			height: 100%;
+			background-color: #000;
+			color: #ccc;
+			box-sizing: border-box;
+			padding: 5px;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			user-select: none;
+			font-family: 'monaco', 'Courier New', Courier, monospace;
+			font-size: 12px;
+		}
+		#output.light {
+			background-color: #fff;
+			color: #222;
+		}
+		#footer {
+			height: 30px;
+			background-color: #ccc;
+			font-size: 15px;
+			box-sizing: border-box;
+			padding: 5px;
+		}
+	</style>
 </head>
 <body>
 	<div class="header"><b><i>Heck Playground</i></b></div>
 	<div class="navbar">
 		<a href="../">Home</a>
+		<a href="../doc">Docs</a>
 	</div>
-	<div id="container" style="width:640px;height:480px;border:1px solid grey">
-		<div style="height:100%;width:100%;display:table;background-color:#000;color:#ccc">
-			<div style="display:table-cell;vertical-align:middle;text-align:center">
-				Please wait...
+
+	<div id="wrapper">
+		<div id="playgroundContent">
+			<div id="editorContainer">
+
+				<!-- loading message -->
+				<div style="height:100%;width:100%;display:table;background-color:#000;color:#ccc">
+					<div style="display:table-cell;vertical-align:middle;text-align:center">
+						Please wait...
+					</div>
+				</div>
+
+			</div><!--
+				removes whitespace
+			--><div id="dragBar">
+				<div class="dragbar-decor"><div><div></div></div></div>
+			</div><!--
+				removes whitespace
+			--><div id="outputContainer">
+				<div style="height:100%;width:100%;display:table;background-color:#000;color:#ccc">
+					<div id="output">
+						output...
+						<br>
+						<br>
+						<span style="color: darkred">NOTE: This playground/demo page will not be able to run code until the complier is finished</span>
+					</div>
+				</div>
 			</div>
+		</div>
+		<div id="footer">
+			Color Theme: 
+			<select id="themeDropdown">
+				<option value="vs-dark">Dark</option>
+				<option value="vs-light">Light</option>
+				<option value="hc-black">High-Contrast Dark</option>
+			</select>
 		</div>
 	</div>
 
@@ -23,6 +131,13 @@
 	<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
 	<script>
 		require.config({ paths: { 'vs': '../node_modules/monaco-editor/min/vs' }});
+
+		let editor;
+		let dragBar = document.getElementById("dragBar");
+		let playgroundContent = document.getElementById("playgroundContent");
+		let editorContainer = document.getElementById('editorContainer');
+		let outputContainer = document.getElementById("outputContainer");
+		let output = document.getElementById("output");
 
 		require(['vs/editor/editor.main'], function() {
 
@@ -149,13 +264,22 @@
 				},
 			});
 
-			let container = document.getElementById('container');
-			container.innerHTML = '';
-			let editor = monaco.editor.create(container, {
+			editorContainer.innerHTML = '';
+			editor = monaco.editor.create(editorContainer, {
 				theme: 'vs-dark',
 				value: getCode(),
 				language: 'heck'
 			});
+
+			let themeDropdown = document.getElementById("themeDropdown");
+			setTheme(themeDropdown.value);
+			themeDropdown.onchange = function() {
+				setTheme(this.value);
+			};
+
+			window.onresize = function() {
+				editor.layout();
+			}
 		});
 
 		function getCode() {
@@ -177,6 +301,30 @@
 				'// should print 120',
 				'print("5! is ", factorial(5))'
 			].join('\n');
+		}
+
+		function setTheme(theme) {
+			monaco.editor.setTheme(theme);
+			if (theme == 'vs-light') {
+				output.className = "light";
+			} else {
+				output.className = "";
+			}
+		}
+
+		dragBar.onmousedown = function() {
+			window.onmousemove = function(e) {
+				let pos = e.clientX;
+				let playgroundWidth = playgroundContent.clientWidth;
+				let leftPercentage = (pos / playgroundWidth) * 100;
+				let rightPercentage = 100 - leftPercentage;
+				editorContainer.style.width = "calc(" + leftPercentage + "% - 6px)";
+				outputContainer.style.width = "calc(" + rightPercentage + "% - 6px)";
+				editor.layout();
+			};
+		};
+		window.onmouseup = function() {
+			window.onmousemove = null;
 		}
 	</script>
 </body>
