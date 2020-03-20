@@ -10,16 +10,17 @@ body {
 }
 
 .header {
-	color: #33aa90;
 	background-color: #000;
-	font-size: 30px;
 	height: 75px;
 	box-sizing: border-box;
+	overflow: hidden;
 }
 
 .header #title {
 	display: inline-block;
 	padding: 20px;
+	font-size: 30px;
+	color: #33aa90;
 }
 
 .header img {
@@ -27,6 +28,13 @@ body {
 	float: right;
 	box-sizing: border-box;
 	padding: 5px;
+}
+
+@media screen and (max-width: 550px) {
+	.header #title {
+		font-size: 20px;
+		padding: 25px;
+	}
 }
 
 .navbar {
