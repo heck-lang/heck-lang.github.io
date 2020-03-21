@@ -1,336 +1,337 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
-	<link href="../assets/style.css" rel="stylesheet">
-	<title>Playground - The Heck Programming Language</title>
-	<style>
-		#wrapper {
-			height: calc(100% - 125px);
-			width: 100%;
-			overflow: hidden;
-		}
-		#playgroundContent {
-			height: calc(100% - 30px);
-			width: 100%;
-			box-sizing: border-box;
-			border-bottom: 1px solid #555;
-			border-top: 1px solid #555;
-		}
-		#editorContainer {
-			display: inline-block;
-			height: 100%;
-			width: calc(50% - 6px);
-		}
-		#dragBar {
-			display: inline-block;
-			height: 100%;
-			width: 12px;
-			background-color: #ccc;
-			box-sizing: border-box;
-			border-left: 1px solid #555;
-			border-right: 1px solid #555;
-			cursor: col-resize;
-		}
-		.dragbar-decor {
-			width: 100%;
-			height: 100%;
-			display: table;
-		}
-		.dragbar-decor div {
-			display: table-cell;
-			vertical-align: middle;
-			text-align: center;
-		}
-		.dragbar-decor div div {
-			width: 2px;
-			height: 10px;
-			border-left: 1px solid #555;
-			border-right: 1px solid #555;
-			display: inline-block;
-		}
-		#outputContainer {
-			display: inline-block;
-			height: 100%;
-			width: calc(50% - 6px);
-		}
-		#output {
-			display: table-cell;
-			width: 100%;
-			height: 100%;
-			background-color: #000;
-			color: #ccc;
-			box-sizing: border-box;
-			padding: 5px;
-			-moz-user-select: none;
-			-webkit-user-select: none;
-			user-select: none;
-			font-family: 'monaco', 'Courier New', Courier, monospace;
-			font-size: 12px;
-		}
-		#output.light {
-			background-color: #fff;
-			color: #222;
-		}
-		#footer {
-			height: 30px;
-			background-color: #ccc;
-			font-size: 15px;
-			box-sizing: border-box;
-			padding: 5px;
-		}
-	</style>
-</head>
-<body>
-	<div class="header">
-		<div id="title"><b><i>Heck Playground</i></b></div>
-		<a href="../"><img src="../assets/logo.png"></a>
-	</div>
-	<div class="navbar">
-		<a href="../">Home</a>
-		<a href="../doc">Docs</a>
-	</div>
+	<head>
+		<meta charset="UTF-8">
+		<title>Playground - The Heck Programming Language</title>
+		<link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+		<link href="../style.css" rel="stylesheet">
+		<style>
+			#wrapper {
+				height: calc(100% - 125px);
+				width: 100%;
+				overflow: hidden;
+			}
+			#playgroundContent {
+				height: calc(100% - 30px);
+				width: 100%;
+				box-sizing: border-box;
+				border-bottom: 1px solid #555;
+				border-top: 1px solid #555;
+			}
+			#editorContainer {
+				display: inline-block;
+				height: 100%;
+				width: calc(50% - 6px);
+			}
+			#dragBar {
+				display: inline-block;
+				height: 100%;
+				width: 12px;
+				background-color: #ccc;
+				box-sizing: border-box;
+				border-left: 1px solid #555;
+				border-right: 1px solid #555;
+				cursor: col-resize;
+			}
+			.dragbar-decor {
+				width: 100%;
+				height: 100%;
+				display: table;
+			}
+			.dragbar-decor div {
+				display: table-cell;
+				vertical-align: middle;
+				text-align: center;
+			}
+			.dragbar-decor div div {
+				width: 2px;
+				height: 10px;
+				border-left: 1px solid #555;
+				border-right: 1px solid #555;
+				display: inline-block;
+			}
+			#outputContainer {
+				display: inline-block;
+				height: 100%;
+				width: calc(50% - 6px);
+			}
+			#output {
+				display: table-cell;
+				width: 100%;
+				height: 100%;
+				background-color: #000;
+				color: #ccc;
+				box-sizing: border-box;
+				padding: 5px;
+				-moz-user-select: none;
+				-webkit-user-select: none;
+				user-select: none;
+				font-family: 'monaco', 'Courier New', Courier, monospace;
+				font-size: 12px;
+			}
+			#output.light {
+				background-color: #fff;
+				color: #222;
+			}
+			#footer {
+				height: 30px;
+				background-color: #ccc;
+				font-size: 15px;
+				box-sizing: border-box;
+				padding: 5px;
+			}
+		</style>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	</head>
+	<body>
+		<div class="header">
+			<div id="title"><b><i>Heck Playground</i></b></div>
+			<a href="../"><img src="../assets/logo.png"></a>
+		</div>
+		<div class="navbar">
+			<a href="../">Home</a>
+			<a href="../doc">Docs</a>
+		</div>
 
-	<div id="wrapper">
-		<div id="playgroundContent">
-			<div id="editorContainer">
+		<div id="wrapper">
+			<div id="playgroundContent">
+				<div id="editorContainer">
 
-				<!-- loading message -->
-				<div style="height:100%;width:100%;display:table;background-color:#000;color:#ccc">
-					<div style="display:table-cell;vertical-align:middle;text-align:center">
-						Please wait...
+					<!-- loading message -->
+					<div style="height:100%;width:100%;display:table;background-color:#000;color:#ccc">
+						<div style="display:table-cell;vertical-align:middle;text-align:center">
+							Please wait...
+						</div>
 					</div>
-				</div>
 
-			</div><!--
-				removes whitespace
-			--><div id="dragBar">
-				<div class="dragbar-decor"><div><div></div></div></div>
-			</div><!--
-				removes whitespace
-			--><div id="outputContainer">
-				<div style="height:100%;width:100%;display:table;background-color:#000;color:#ccc">
-					<div id="output">
-						output...
-						<br>
-						<br>
-						<span style="color: darkred">NOTE: This playground/demo page will not be able to run code until the complier is finished</span>
+				</div><!--
+					removes whitespace
+				--><div id="dragBar">
+					<div class="dragbar-decor"><div><div></div></div></div>
+				</div><!--
+					removes whitespace
+				--><div id="outputContainer">
+					<div style="height:100%;width:100%;display:table;background-color:#000;color:#ccc">
+						<div id="output">
+							output...
+							<br>
+							<br>
+							<span style="color: darkred">NOTE: This playground/demo page will not be able to run code until the complier is finished</span>
+						</div>
 					</div>
 				</div>
 			</div>
+			<div id="footer">
+				Color Theme: 
+				<select id="themeDropdown">
+					<option value="vs-dark">Dark</option>
+					<option value="vs-light">Light</option>
+					<option value="hc-black">High-Contrast Dark</option>
+				</select>
+			</div>
 		</div>
-		<div id="footer">
-			Color Theme: 
-			<select id="themeDropdown">
-				<option value="vs-dark">Dark</option>
-				<option value="vs-light">Light</option>
-				<option value="hc-black">High-Contrast Dark</option>
-			</select>
-		</div>
-	</div>
 
-	<!-- OR ANY OTHER AMD LOADER HERE INSTEAD OF loader.js -->
-	<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
-	<script>
-		require.config({ paths: { 'vs': '../node_modules/monaco-editor/min/vs' }});
+		<!-- OR ANY OTHER AMD LOADER HERE INSTEAD OF loader.js -->
+		<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+		<script>
+			require.config({ paths: { 'vs': '../node_modules/monaco-editor/min/vs' }});
 
-		let editor;
-		let dragBar = document.getElementById("dragBar");
-		let playgroundContent = document.getElementById("playgroundContent");
-		let editorContainer = document.getElementById('editorContainer');
-		let outputContainer = document.getElementById("outputContainer");
-		let output = document.getElementById("output");
+			let editor;
+			let dragBar = document.getElementById("dragBar");
+			let playgroundContent = document.getElementById("playgroundContent");
+			let editorContainer = document.getElementById('editorContainer');
+			let outputContainer = document.getElementById("outputContainer");
+			let output = document.getElementById("output");
 
-		require(['vs/editor/editor.main'], function() {
+			require(['vs/editor/editor.main'], function() {
 
-			monaco.languages.register({
-				id: 'heck'
-			});
-			monaco.languages.setLanguageConfiguration('heck', {
-				comments: {
-					lineComment: '//',
-					blockComment: ['/*', '*/'],
-				},
-				brackets: [
-					['{', '}'],
-					['[', ']'],
-					['(', ')']
-				],
-				autoClosingPairs: [
-					{ open: '[', close: ']' },
-					{ open: '{', close: '}' },
-					{ open: '(', close: ')' },
-					{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
-					{ open: '"', close: '"', notIn: ['string'] },
-				],
-				surroundingPairs: [
-					{ open: '{', close: '}' },
-					{ open: '[', close: ']' },
-					{ open: '(', close: ')' },
-					{ open: '"', close: '"' },
-					{ open: '\'', close: '\'' },
-				],
-				folding: {
-					markers: {
-						start: new RegExp("^\\s*#pragma\\s+region\\b"),
-						end: new RegExp("^\\s*#pragma\\s+endregion\\b")
+				monaco.languages.register({
+					id: 'heck'
+				});
+				monaco.languages.setLanguageConfiguration('heck', {
+					comments: {
+						lineComment: '//',
+						blockComment: ['/*', '*/'],
+					},
+					brackets: [
+						['{', '}'],
+						['[', ']'],
+						['(', ')']
+					],
+					autoClosingPairs: [
+						{ open: '[', close: ']' },
+						{ open: '{', close: '}' },
+						{ open: '(', close: ')' },
+						{ open: '\'', close: '\'', notIn: ['string', 'comment'] },
+						{ open: '"', close: '"', notIn: ['string'] },
+					],
+					surroundingPairs: [
+						{ open: '{', close: '}' },
+						{ open: '[', close: ']' },
+						{ open: '(', close: ')' },
+						{ open: '"', close: '"' },
+						{ open: '\'', close: '\'' },
+					],
+					folding: {
+						markers: {
+							start: new RegExp("^\\s*#pragma\\s+region\\b"),
+							end: new RegExp("^\\s*#pragma\\s+endregion\\b")
+						}
 					}
+				});
+				
+				monaco.languages.setMonarchTokensProvider('heck', {
+					// Set defaultToken to invalid to see what you do not tokenize yet
+					// defaultToken: 'invalid',
+					brackets: [
+						['{','}','delimiter.curly'],
+						['[',']','delimiter.square'],
+						['(',')','delimiter.parenthesis'],
+					],
+
+					keywords: [
+						'if', 'while', 'for', 'return', 'class', 'namespace', 'func', 'let', 'true', 'false', 'import', 'export', 'const', 'friend', 'public', 'private', 'operator'
+					],
+
+					typeKeywords: [
+						'int', 'string', 'bool', 'float', 'char'
+					],
+
+					operators: [
+						'=', '>', '<', '!', '~', '?', ':', '==', '<=', '>=', '!=',
+						'&&', '||', '++', '--', '+', '-', '*', '/', '&', '|', '^', '%',
+						'<<', '>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=', '^=',
+						'%=', '<<=', '>>=', '>>>='
+					],
+
+					// we include these common regular expressions
+					symbols:  /[=><!~?:&|+\-*\/\^%]+/,
+
+					// C# style strings
+					escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+
+					// The main tokenizer for our languages
+					tokenizer: {
+						root: [
+						// identifiers and keywords
+						[/[a-z_$][\w$]*/, { cases: { '@typeKeywords': 'keyword',
+													'@keywords': 'keyword',
+													'@default': 'identifier' } }],
+						[/[A-Z][\w\$]*/, 'type.identifier'],  // to show class names nicely
+
+						// whitespace
+						{ include: '@whitespace' },
+
+						// delimiters and operators
+						[/[{}()\[\]]/, '@brackets'],
+						[/[<>](?!@symbols)/, '@brackets'],
+						[/@symbols/, { cases: { '@operators': 'operator',
+												'@default'  : '' } } ],
+
+						// numbers
+						[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
+						[/0[xX][0-9a-fA-F]+/, 'number.hex'],
+						[/\d+/, 'number'],
+
+						// delimiter: after number because of .\d floats
+						[/[;,.]/, 'delimiter'],
+
+						// strings
+						[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
+						[/"/,  { token: 'string.quote', bracket: '@open', next: '@string' } ],
+
+						// characters
+						[/'[^\\']'/, 'string'],
+						[/(')(@escapes)(')/, ['string','string.escape','string']],
+						[/'/, 'string.invalid']
+						],
+
+						comment: [
+						[/[^\/*]+/, 'comment' ],
+						[/\/\*/,    'comment', '@push' ],    // nested comment
+						["\\*/",    'comment', '@pop'  ],
+						[/[\/*]/,   'comment' ]
+						],
+
+						string: [
+						[/[^\\"]+/,  'string'],
+						[/@escapes/, 'string.escape'],
+						[/\\./,      'string.escape.invalid'],
+						[/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
+						],
+
+						whitespace: [
+						[/[ \t\r\n]+/, 'white'],
+						[/\/\*/,       'comment', '@comment' ],
+						[/\/\/.*$/,    'comment'],
+						],
+					},
+				});
+
+				editorContainer.innerHTML = '';
+				editor = monaco.editor.create(editorContainer, {
+					theme: 'vs-dark',
+					value: getCode(),
+					language: 'heck'
+				});
+
+				let themeDropdown = document.getElementById("themeDropdown");
+				setTheme(themeDropdown.value);
+				themeDropdown.onchange = function() {
+					setTheme(this.value);
+				};
+
+				window.onresize = function() {
+					editor.layout();
 				}
 			});
-			
-			monaco.languages.setMonarchTokensProvider('heck', {
-				// Set defaultToken to invalid to see what you do not tokenize yet
-				// defaultToken: 'invalid',
-				brackets: [
-					['{','}','delimiter.curly'],
-					['[',']','delimiter.square'],
-					['(',')','delimiter.parenthesis'],
-				],
 
-				keywords: [
-					'if', 'while', 'for', 'return', 'class', 'namespace', 'func', 'let', 'true', 'false', 'import', 'export', 'const', 'friend', 'public', 'private', 'operator'
-				],
-
-				typeKeywords: [
-					'int', 'string', 'bool', 'float', 'char'
-				],
-
-				operators: [
-					'=', '>', '<', '!', '~', '?', ':', '==', '<=', '>=', '!=',
-					'&&', '||', '++', '--', '+', '-', '*', '/', '&', '|', '^', '%',
-					'<<', '>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=', '^=',
-					'%=', '<<=', '>>=', '>>>='
-				],
-
-				// we include these common regular expressions
-				symbols:  /[=><!~?:&|+\-*\/\^%]+/,
-
-				// C# style strings
-				escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
-
-				// The main tokenizer for our languages
-				tokenizer: {
-					root: [
-					// identifiers and keywords
-					[/[a-z_$][\w$]*/, { cases: { '@typeKeywords': 'keyword',
-												'@keywords': 'keyword',
-												'@default': 'identifier' } }],
-					[/[A-Z][\w\$]*/, 'type.identifier'],  // to show class names nicely
-
-					// whitespace
-					{ include: '@whitespace' },
-
-					// delimiters and operators
-					[/[{}()\[\]]/, '@brackets'],
-					[/[<>](?!@symbols)/, '@brackets'],
-					[/@symbols/, { cases: { '@operators': 'operator',
-											'@default'  : '' } } ],
-
-					// numbers
-					[/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
-					[/0[xX][0-9a-fA-F]+/, 'number.hex'],
-					[/\d+/, 'number'],
-
-					// delimiter: after number because of .\d floats
-					[/[;,.]/, 'delimiter'],
-
-					// strings
-					[/"([^"\\]|\\.)*$/, 'string.invalid' ],  // non-teminated string
-					[/"/,  { token: 'string.quote', bracket: '@open', next: '@string' } ],
-
-					// characters
-					[/'[^\\']'/, 'string'],
-					[/(')(@escapes)(')/, ['string','string.escape','string']],
-					[/'/, 'string.invalid']
-					],
-
-					comment: [
-					[/[^\/*]+/, 'comment' ],
-					[/\/\*/,    'comment', '@push' ],    // nested comment
-					["\\*/",    'comment', '@pop'  ],
-					[/[\/*]/,   'comment' ]
-					],
-
-					string: [
-					[/[^\\"]+/,  'string'],
-					[/@escapes/, 'string.escape'],
-					[/\\./,      'string.escape.invalid'],
-					[/"/,        { token: 'string.quote', bracket: '@close', next: '@pop' } ]
-					],
-
-					whitespace: [
-					[/[ \t\r\n]+/, 'white'],
-					[/\/\*/,       'comment', '@comment' ],
-					[/\/\/.*$/,    'comment'],
-					],
-				},
-			});
-
-			editorContainer.innerHTML = '';
-			editor = monaco.editor.create(editorContainer, {
-				theme: 'vs-dark',
-				value: getCode(),
-				language: 'heck'
-			});
-
-			let themeDropdown = document.getElementById("themeDropdown");
-			setTheme(themeDropdown.value);
-			themeDropdown.onchange = function() {
-				setTheme(this.value);
-			};
-
-			window.onresize = function() {
-				editor.layout();
+			function getCode() {
+				return [
+					'/*',
+					' the playground will be under construction',
+					' until the first release of the Heck compiler',
+					'*/',
+					'',
+					'func factorial(n: int) {',
+					'',
+					'\tif (n == 1) {',
+					'\t\treturn 1',
+					'\t}',
+					'',
+					'\treturn n * factorial(n - 1)',
+					'}',
+					'',
+					'// should print 120',
+					'print("5! is ", factorial(5))'
+				].join('\n');
 			}
-		});
 
-		function getCode() {
-			return [
-				'/*',
-				' the playground will be under construction',
-				' until the first release of the Heck compiler',
-				'*/',
-				'',
-				'func factorial(n: int) {',
-				'',
-				'\tif (n == 1) {',
-				'\t\treturn 1',
-				'\t}',
-				'',
-				'\treturn n * factorial(n - 1)',
-				'}',
-				'',
-				'// should print 120',
-				'print("5! is ", factorial(5))'
-			].join('\n');
-		}
-
-		function setTheme(theme) {
-			monaco.editor.setTheme(theme);
-			if (theme == 'vs-light') {
-				output.className = "light";
-			} else {
-				output.className = "";
+			function setTheme(theme) {
+				monaco.editor.setTheme(theme);
+				if (theme == 'vs-light') {
+					output.className = "light";
+				} else {
+					output.className = "";
+				}
 			}
-		}
 
-		// handle dragbar
-		dragBar.onmousedown = function() {
-			window.onmousemove = function(e) {
-				let playgroundWidth = playgroundContent.clientWidth;
-				// don't let either playgrounds be less than 100px wide
-				let pos = Math.max(Math.min(e.clientX, playgroundWidth - 100), 100);
-				let leftPercentage = (pos / playgroundWidth) * 100;
-				let rightPercentage = 100 - leftPercentage;
-				editorContainer.style.width = "calc(" + leftPercentage + "% - 6px)";
-				outputContainer.style.width = "calc(" + rightPercentage + "% - 6px)";
-				editor.layout();
+			// handle dragbar
+			dragBar.onmousedown = function() {
+				window.onmousemove = function(e) {
+					let playgroundWidth = playgroundContent.clientWidth;
+					// don't let either playgrounds be less than 100px wide
+					let pos = Math.max(Math.min(e.clientX, playgroundWidth - 100), 100);
+					let leftPercentage = (pos / playgroundWidth) * 100;
+					let rightPercentage = 100 - leftPercentage;
+					editorContainer.style.width = "calc(" + leftPercentage + "% - 6px)";
+					outputContainer.style.width = "calc(" + rightPercentage + "% - 6px)";
+					editor.layout();
+				};
 			};
-		};
-		window.onmouseup = function() {
-			window.onmousemove = null;
-		}
-	</script>
-</body>
+			window.onmouseup = function() {
+				window.onmousemove = null;
+			}
+		</script>
+	</body>
 </html>
