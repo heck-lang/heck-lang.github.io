@@ -24,8 +24,15 @@
 
 			@media screen and (max-width:550px) {
 				#container {
-					display: flex;
+					display: flex !important;
     				flex-direction: column;
+				}
+				#container .box {
+					max-width: 100%;
+					height: auto !important;
+				}
+				#container .box .box-content {
+					min-width: 0px !important;
 				}
 			}
 
