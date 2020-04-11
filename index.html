@@ -1,26 +1,168 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<title>The Heck Programming Language</title>
 		<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 		<link href="style.css" rel="stylesheet">
+		<style>
+			#content {
+				text-align: center;
+			}
+
+			#container {
+				/* Grid Fallback */
+				display: flex;
+				flex-wrap: wrap;
+
+				/* Supports Grid */
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+				grid-auto-rows: minmax(150px, auto);
+				grid-gap: 1em;
+			}
+
+			#container .box {
+				/* Demo-Specific Styles */
+				height: 200px;
+				box-sizing: border-box;
+				padding: 20px;
+				border: 1px solid #555;
+				background-color: #272727;
+				border-radius: 15px;
+			}
+
+			#container .box .box-content {
+				width: 100%;
+				min-width: 300px;
+				text-align: left;
+				display: inline-block;
+				font-size: 20px;
+			}
+
+			#container .box .title {
+				font-size: 25px;
+				font-weight: bold;
+				text-align: center;
+			}
+
+			#contentHeader {
+				font-family: 'Monaco', 'Courier New', Courier, monospace;
+				height: 200px;
+			}
+
+			#contentHeader #heckTitle {
+				font-size: 100px;
+				color: lightgreen;
+			}
+
+			#contentHeader #heckSubtitle {
+				font-size: 20px;
+				color: darkseagreen;
+			}
+
+			#contentHeader .typing::after {
+				content: "█";
+				position: absolute;
+				animation: blink 0.5s infinite;
+			}
+
+			@keyframes blink {
+				0% { opacity: 100%; }
+				50% { opacity: 100%; }
+				50% { opacity: 0%; }
+				100% { opactiy: 0%; }
+				100% { opacity :100%; }
+			}
+		</style>
 	</head>
 	<body>
-		<div class="header">
+		<div id="header">
 			<div id="title"><b><i>The Heck Programming Language</i></b></div>
 			<img src="assets/logo.png">
 		</div>
-		<div class="navbar">
-			<a href="doc/">Docs</a>
-			<a href="playground/">Playground</a>
+		<div id="navbar">
+			<a href="doc/">Docs</a><a href="playground/">Playground</a>
 		</div>
-		<div class="content">
-			<h3>It's hecking fast!</h3>
+		<div id="content">
+			<div id="tryIt">
+
+			</div>
+			<div id="contentHeader">
+				<span id="heckTitle" class="typing"><noscript>Heck</noscript></span><br><br>
+				<span id="heckSubtitle"><noscript>It's hecking fast!</noscript></span><br><br>
+				<script>
+					let title = "Heck";
+					let subtitle = "It's hecking fast!";
+
+					let titleElem = document.getElementById("heckTitle");
+					let subtitleElem = document.getElementById("heckSubtitle");
+
+					let i = 0;
+					setTimeout(typeTitle, 2000);
+					function typeTitle() {
+						if (i < title.length) {
+							heckTitle.innerHTML += title.charAt(i);
+							i++;
+							setTimeout(typeTitle, 100);
+						} else {
+							i = 0; // reassign i
+							setTimeout(function() {
+								titleElem.className = "";
+								subtitleElem.className = "typing";
+								setTimeout(typeSubtitle, 200);
+							}, 1000); // 0.5s delay
+						}
+					}
+
+					function typeSubtitle() {
+						if (i < subtitle.length) {
+							subtitleElem.innerHTML += subtitle.charAt(i);
+							i++;
+							setTimeout(typeSubtitle, 50);
+						}
+						setTimeout(function() {
+							subtitleElem.className = "";
+						}, 3000);
+					}
+				</script>
+			</div>
+			<div id="container"><!--
+				removes whitespace
+			--><div class="box">
+					<div class="title" style="color: #d07200;">Extremely Intuitive</div>
+					<div class="box-content">
+						<p>Heck provides a familiar syntax and doesn't overstep its bounds with assumptions. It does exactly what you expect it to!</p>
+					</div>
+				</div><!--
+					removes whitespace
+				--><div class="box">
+					<div class="title" style="color: #c4b700;">As Much Control as You Need</div>
+					<div class="box-content">
+						<p>Heck will optimize your high-level code as much as possible, but it will also give you as much control as you ask for!</p>
+					</div>
+				</div><!--
+					removes whitespace
+				--><div class="box">
+					<div class="title" style="color: #bf399d;">All of the High-Level Benefits</div>
+					<div class="box-content">
+						<p>Heck has an extremely smart compiler, and it will do what you ask of it with extremely little code.</p>
+					</div>
+				</div><!--
+					removes whitespace
+				--><div class="box">
+					<div class="title" style="color: darkcyan;">Zero-Cost Abstractions</div>
+					<div class="box-content">
+						<p>Heck lets you do more at compile time, and we encourage metaprogramming, rather than trying to fight it!</p>
+					</div>
+				</div>
+			</div>
+			<!--<h3>It's hecking fast!</h3>
 			<p>This is the official hub page (for now) for the <a href="https://github.com/mashpoe/heck">Heck programming language</a>. This domain will also be used to host the CDN that will allow you to run Heck code on your website. You won't <i>need</i> the CDN for Heck to work on your website, as you can compile it to WebAssembly ahead of time (which is recommended), but if that won't work for you or you just want a quick way to test your code without having to manually compile it each time, this CDN will allow you to run Heck code just like JavaScript with a custom script tag like so: <code>&lt;script type="heck"&gt;</code>.</p>
 			<p>The CDN will simply be a small script that looks for the special script tags, and if it finds any, it will load in the lightweight Heck compiler, which is just a WebAssembly module that will turn your Heck source code into its own WebAssembly module. The compiler will then be unloaded.</p>
 			<p>Heck is ideal for parts of your code where performance is key, and it will be able to communicate with JavaScript code in a very simple and efficient way.</p>
 			<p>Heck won't be used exclusively on the web, but that will be its first target. Eventually, Heck will be able to produce native executables (if you couldn't tell by now, it's a compiled language), and it will also be used as an embedded language with a JIT. Heck is built on multiple philosophies, but they all ultimatley boil down to the idea that the purpose of a programming language is to make programs easy for both humans and computers to understand, and that means it will be simple yet powerful, and it will compile and run extremely quickly.</p>
-			<p>As it stands, there is no complete implementation of Heck, but you can follow the <a href="https://heck-lang.blogspot.com">creator's blog</a> in the meantime in order to get updates!</p>
+			<p>As it stands, there is no complete implementation of Heck, but you can follow the <a href="https://heck-lang.blogspot.com">creator's blog</a> in the meantime in order to get updates!</p>-->
 		</div>
 	</body>
 </html>

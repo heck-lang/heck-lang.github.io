@@ -4,26 +4,26 @@ html, body {
 }
 
 body {
-	color: #222;
-	background-color: #eee;
+	color: #ccc;
+	background-color: #333;
 	font-family: arial;
 }
 
-.header {
+#header {
 	background-color: #000;
 	height: 75px;
 	box-sizing: border-box;
 	overflow: hidden;
 }
 
-.header #title {
+#header #title {
 	display: inline-block;
 	padding: 20px;
 	font-size: 30px;
 	color: #33aa90;
 }
 
-.header img {
+#header img {
 	max-height: 100%;
 	float: right;
 	box-sizing: border-box;
@@ -37,13 +37,17 @@ body {
 	}
 }
 
-.navbar {
+#navbar {
 	font-size: 20px;
 	height: 50px;
-	background-color: #ccc;
+	background-color: #272727;
+	color: #ccc;
+	box-sizing: border-box;
+	border-bottom: 1px solid #555;
+	border-top: 1px solid #555;
 }
 
-.navbar a {
+#navbar a {
 	padding: 12px;
 	display: inline-block;
 	box-sizing: border-box;
@@ -52,11 +56,22 @@ body {
 	color: inherit;
 }
 
-.navbar a:hover {
+#navbar a:hover {
 	transition: 0.2s;
-	background-color: #aaa;
+	background-color: #555;
 }
 
-.content {
+#content {
 	padding: 20px;
+}
+
+#content li {
+	padding-bottom: 20px;
+}
+
+#content a:visited {
+    color: lightpink;
+}
+#content a {
+    color: lightblue;
 }
