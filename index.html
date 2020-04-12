@@ -67,11 +67,13 @@
 
 			#contentHeader #heckTitle {
 				font-size: 100px;
+				display: inline-block;
 				color: lightgreen;
 			}
 
 			#contentHeader #heckSubtitle {
 				font-size: 20px;
+				display: inline-block;
 				color: darkseagreen;
 			}
 
@@ -111,6 +113,12 @@
 
 					let titleElem = document.getElementById("heckTitle");
 					let subtitleElem = document.getElementById("heckSubtitle");
+
+					titleElem.style.textAlign = "left";
+					titleElem.style.width = title.length + "ch";
+
+					subtitleElem.style.textAlign = "left";
+					subtitleElem.style.width = subtitle.length + "ch";
 
 					let i = 0;
 					setTimeout(typeTitle, 2000);
