@@ -61,7 +61,7 @@
 			}
 
 			#contentHeader {
-				font-family: 'Monaco', 'Courier New', Courier, monospace;
+				font-family: 'Monaco', 'Lucida Console', monospace;
 				height: 200px;
 			}
 
@@ -77,8 +77,7 @@
 				color: darkseagreen;
 			}
 
-			#contentHeader .typing::after {
-				content: "_";
+			#contentHeader #headerCursor {
 				position: absolute;
 				animation: blink 0.5s infinite;
 			}
@@ -105,14 +104,16 @@
 
 			</div>
 			<div id="contentHeader">
-				<span id="heckTitle" class="typing"><noscript>Heck</noscript></span><br><br>
-				<span id="heckSubtitle"><noscript>It's hecking fast!</noscript></span><br><br>
+				<span id="heckTitle" class="typing"><span id="heckTitleText"></span><noscript>Heck</noscript></span><br><br>
+				<span id="heckSubtitle"><span id="heckSubtitleText"></span><noscript>It's hecking fast!</noscript></span><br><br>
 				<script>
 					let title = "Heck";
 					let subtitle = "It's hecking fast!";
 
 					let titleElem = document.getElementById("heckTitle");
+					let titleElemText = document.getElementById("heckTitleText");
 					let subtitleElem = document.getElementById("heckSubtitle");
+					let subtilteElemText = document.getElementById("heckSubtitleText");
 
 					titleElem.style.textAlign = "left";
 					titleElem.style.width = title.length + "ch";
@@ -121,16 +122,18 @@
 					subtitleElem.style.width = subtitle.length + "ch";
 
 					let i = 0;
+					addCursor(titleElem);
 					setTimeout(typeTitle, 2000);
 					function typeTitle() {
 						if (i < title.length) {
-							heckTitle.innerHTML += title.charAt(i);
+							titleElemText.innerHTML += title.charAt(i);
 							i++;
 							setTimeout(typeTitle, 100);
 						} else {
 							i = 0; // reassign i
 							setTimeout(function() {
-								titleElem.className = "";
+								removeCursor(titleElem);
+								addCursor(subtitleElem);
 								subtitleElem.className = "typing";
 								setTimeout(typeSubtitle, 200);
 							}, 1000); // 0.5s delay
@@ -139,13 +142,24 @@
 
 					function typeSubtitle() {
 						if (i < subtitle.length) {
-							subtitleElem.innerHTML += subtitle.charAt(i);
+							subtilteElemText.innerHTML += subtitle.charAt(i);
 							i++;
 							setTimeout(typeSubtitle, 50);
 						}
 						setTimeout(function() {
-							subtitleElem.className = "";
+							removeCursor(subtitleElem);
 						}, 3000);
+					}
+
+					function addCursor(elem) {
+						let cursor = document.createElement("span");
+						cursor.setAttribute("id", "headerCursor");
+						cursor.innerHTML = "_";
+						elem.appendChild(cursor);
+					}
+
+					function removeCursor(elem) {
+						elem.removeChild(document.getElementById("headerCursor"));
 					}
 				</script>
 			</div>
