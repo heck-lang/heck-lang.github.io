@@ -79,15 +79,7 @@
 
 			#contentHeader #headerCursor {
 				position: absolute;
-				animation: blink 0.5s infinite;
-			}
-
-			@keyframes blink {
-				0% { opacity: 100%; }
-				50% { opacity: 100%; }
-				50% { opacity: 0%; }
-				100% { opactiy: 0%; }
-				100% { opacity :100%; }
+				transition: 0.2s;
 			}
 		</style>
 	</head>
@@ -112,14 +104,18 @@
 
 					let titleElem = document.getElementById("heckTitle");
 					let titleElemText = document.getElementById("heckTitleText");
+
 					let subtitleElem = document.getElementById("heckSubtitle");
-					let subtilteElemText = document.getElementById("heckSubtitleText");
+					let subtitleElemText = document.getElementById("heckSubtitleText");
 
 					titleElem.style.textAlign = "left";
 					titleElem.style.width = title.length + "ch";
 
 					subtitleElem.style.textAlign = "left";
 					subtitleElem.style.width = subtitle.length + "ch";
+
+					let cursor;
+					let cursorBlink;
 
 					let i = 0;
 					addCursor(titleElem);
@@ -142,7 +138,7 @@
 
 					function typeSubtitle() {
 						if (i < subtitle.length) {
-							subtilteElemText.innerHTML += subtitle.charAt(i);
+							subtitleElemText.innerHTML += subtitle.charAt(i);
 							i++;
 							setTimeout(typeSubtitle, 50);
 						}
@@ -152,14 +148,19 @@
 					}
 
 					function addCursor(elem) {
-						let cursor = document.createElement("span");
+						cursor = document.createElement("span");
 						cursor.setAttribute("id", "headerCursor");
 						cursor.innerHTML = "_";
+						cursorBlink = window.setInterval(function() {
+							cursor.style.opacity = cursor.style.opacity == "0" ? "100" : "0";
+						}, 250);
 						elem.appendChild(cursor);
 					}
 
 					function removeCursor(elem) {
-						elem.removeChild(document.getElementById("headerCursor"));
+						window.clearInterval(cursorBlink);
+						elem.removeChild(cursor);
+						cursor = null;
 					}
 				</script>
 			</div>
