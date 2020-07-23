@@ -69,12 +69,14 @@
 				font-size: 100px;
 				display: inline-block;
 				color: #33aa90;
+				position: relative;
 			}
 
 			#contentHeader #heckSubtitle {
 				font-size: 20px;
 				display: inline-block;
 				color: white;
+				position: relative;
 			}
 
 			#contentHeader #headerCursor {
@@ -98,7 +100,9 @@
 				<span id="heckSubtitle"><span id="heckSubtitleText"></span><noscript>It's hecking fast!</noscript></span><br><br>
 				<script>
 					let title = "Heck";
-					let subtitle = "It's hecking fast!";
+
+					// \u00A0 is a nbsp, which is required for the text to display properly
+					let subtitle = "It's\u00A0hecking\u00A0fast!";
 
 					let titleElem = document.getElementById("heckTitle");
 					let titleElemText = document.getElementById("heckTitleText");
@@ -107,21 +111,21 @@
 					let subtitleElemText = document.getElementById("heckSubtitleText");
 
 					titleElem.style.textAlign = "left";
-					titleElem.style.width = title.length + "ch";
-
 					subtitleElem.style.textAlign = "left";
-					subtitleElem.style.width = subtitle.length + "ch";
 
 					let cursor;
 					let cursorBlink;
 
 					let i = 0;
+					titleElem.style.right = .5 * (title.length) + "ch"
+					subtitleElem.style.right = .5 * (subtitle.length) + "ch"
 					addCursor(titleElem);
 					setTimeout(typeTitle, 2000);
 					function typeTitle() {
 						if (i < title.length) {
 							titleElemText.innerHTML += title.charAt(i);
 							i++;
+							titleElem.style.right = .5 * (title.length - i) + "ch"
 							setTimeout(typeTitle, 100);
 						} else {
 							i = 0; // reassign i
@@ -138,11 +142,13 @@
 						if (i < subtitle.length) {
 							subtitleElemText.innerHTML += subtitle.charAt(i);
 							i++;
+							subtitleElem.style.right = .5 * (subtitle.length - i) + "ch"
 							setTimeout(typeSubtitle, 50);
+						} else {
+							setTimeout(function() {
+								removeCursor(subtitleElem);
+							}, 3000);
 						}
-						setTimeout(function() {
-							removeCursor(subtitleElem);
-						}, 3000);
 					}
 
 					function addCursor(elem) {
