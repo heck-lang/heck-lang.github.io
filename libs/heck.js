@@ -10,4 +10,4 @@ let Heck = function() {
   }
 }
 
-heck = new Heck();
+let heck = new Heck();
