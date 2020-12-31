@@ -1,8 +1,8 @@
 let heckImports = null;
 
-let init_heck_script = document.createElement('script');
-init_heck_script.setAttribute('src', 'init_heck.js');
-document.head.appendChild(init_heck_script);
+let heck_init_script = document.createElement('script');
+heck_init_script.setAttribute('src', 'heck-init.js');
+document.head.appendChild(heck_init_script);
 
 let Heck = function() {
   this.addImports = function(imports) {
